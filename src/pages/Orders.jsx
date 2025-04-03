@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { fetchUserOrders } from "../api/fetchOrders"; // ✅ Use API function
 import OrderCard from "../components/OrderCard";
+import { fetchUserOrders } from "../services/api";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
