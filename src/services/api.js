@@ -405,7 +405,7 @@ export const verifyPaymentAPI = async (paymentData) => {
     }
 
     const response = await axios.post(
-      "http://localhost:1001/api/payments/verify",
+      `${BASE_URL}/payments/verify`,
       paymentData,
       {
         headers: {
