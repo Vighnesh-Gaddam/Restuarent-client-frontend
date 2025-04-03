@@ -133,7 +133,7 @@ const Sidebar = () => {
     <div className="fixed left-0 top-0 w-72 h-screen bg-white text-[#424242] flex flex-col shadow-lg">
       {/* Logo Section */}
       <div className="p-6 mt-4">
-        <img src="/public/Logo2.svg" alt="Logo" className="mx-auto w-32 mb-2" />
+        <img src="/Logo2.svg" alt="Logo" className="mx-auto w-32 mb-2" />
       </div>
 
       {/* Menu Items */}
