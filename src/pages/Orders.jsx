@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import OrderCard from "../components/OrderCard"; // Import the OrderCard component
+import { fetchUserOrders } from "../api/fetchOrders"; // ✅ Use API function
+import OrderCard from "../components/OrderCard";
 
 const Orders = () => {
-  const [orders, setOrders] = useState([]); // Ensure it's an array
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const getOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:1001/api/order/myOrders", {
-          withCredentials: true, // Ensure session cookies are sent
-        });
-        setOrders(response.data.data || []); // Ensure it's always an array
+        const data = await fetchUserOrders(); // ✅ Fetch orders with proper auth
+        setOrders(data.data || []);
       } catch (err) {
         console.error("Error fetching orders:", err);
         setError("Failed to fetch orders.");
@@ -22,7 +20,7 @@ const Orders = () => {
       }
     };
 
-    fetchOrders();
+    getOrders();
   }, []);
 
   return (

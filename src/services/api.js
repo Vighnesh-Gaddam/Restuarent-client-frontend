@@ -338,6 +338,22 @@ export const placeOrderAPI = async (totalPrice) => {
   }
 };
 
+// Fetch user orders
+export const fetchUserOrders = async () => {
+  try {
+    const token = localStorage.getItem("refreshToken"); // Assuming you use JWT for auth
+    if (!token) throw new Error("Unauthorized: No access token");
+    const response = await axios.get(`${BASE_URL}/order/myOrders`, {
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user orders:", error);
+    throw error;
+  }
+};
+
 
 // Verify the paymentimport axios from "axios";
 // export const verifyPaymentAPI = async (paymentResponse) => {
@@ -407,19 +423,4 @@ export const verifyPaymentAPI = async (paymentData) => {
   }
 };
 
-// Fetch user orders
-export const fetchUserOrders = async () => {
-  try {
-    const token = localStorage.getItem("refreshToken"); // Assuming you use JWT for auth
-    if (!token) throw new Error("Unauthorized: No access token");
-    const response = await axios.get(`${BASE_URL}/order/myOrders`, {
-      headers: { Authorization: `Bearer ${token}` },
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching user orders:", error);
-    throw error;
-  }
-};
 
