@@ -36,7 +36,7 @@ export const loginUser = async (credentials) => {
 export const logoutUserAPI = async () => {
   const response = await axios.post(`${BASE_URL}/auth/logout`, {}, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // Send token to invalidate session
+      Authorization: `Bearer ${localStorage.getItem("refreshToken")}`, // Send token to invalidate session
     },
     withCredentials: true,
   });
@@ -46,7 +46,7 @@ export const logoutUserAPI = async () => {
 export const fetchMenuItems = async () => {
   const response = await axios.get(`${BASE_URL}/menu`, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
     },
     withCredentials: true,
   });
@@ -82,7 +82,7 @@ export const addToCart = async (items) => {
       { items }, // Ensure only `items` array is sent
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
         },
         withCredentials: true, // Must be outside headers
       }
@@ -99,7 +99,7 @@ export const fetchCartItems = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/cart/`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
       },
       withCredentials: true,
     });
@@ -152,7 +152,7 @@ export const refreshAccessToken = async () => {
 // };
 export const removeCartItemAPI = async (cartItemId) => {
   try {
-    let token = localStorage.getItem("accessToken");
+    let token = localStorage.getItem("refreshToken");
     if (!token) throw new Error("Unauthorized: No access token");
 
     console.log("🛒 Removing item from cart:", cartItemId); // Debug log
@@ -182,7 +182,7 @@ export const clearCartAPI = async () => {
   try {
     const response = await axios.delete(`${BASE_URL}/cart/clear`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
       },
       withCredentials: true,
     });
@@ -199,7 +199,7 @@ export const clearCartAPI = async () => {
 // ✅ More robust updateCartQuantity function
 export const updateCartQuantityAPI = async (cartItemId, quantity) => {
   try {
-    let token = localStorage.getItem("accessToken");
+    let token = localStorage.getItem("refreshToken");
     if (!token) throw new Error("Unauthorized: No access token");
 
     console.log("🔄 Updating cart item:", cartItemId, "to quantity:", quantity);
@@ -225,7 +225,7 @@ export const updateCartQuantityAPI = async (cartItemId, quantity) => {
 
 export const getUserProfile = async () => {
   try {
-    let token = localStorage.getItem("accessToken");
+    let token = localStorage.getItem("refreshToken");
     if (!token) throw new Error("Unauthorized: No access token");
     console.log(`👤 Fetching profile... ${BASE_URL}/user/profile`);
 
@@ -245,7 +245,7 @@ export const getUserProfile = async () => {
 // ✅ Update User Profile
 export const updateUserProfile = async (data) => {
   try {
-    let token = localStorage.getItem("accessToken");
+    let token = localStorage.getItem("refreshToken");
     if (!token) throw new Error("Unauthorized: No access token");
 
     console.log("✏️ Updating profile:", data);
@@ -267,7 +267,7 @@ export const updateUserProfile = async (data) => {
 // ✅ Delete User Account
 export const deleteUserAPI = async () => {
   try {
-    let token = localStorage.getItem("accessToken");
+    let token = localStorage.getItem("refreshToken");
     if (!token) throw new Error("Unauthorized: No access token");
 
     console.warn("🛑 Deleting user account...");
@@ -278,7 +278,7 @@ export const deleteUserAPI = async () => {
     });
 
     toast.success("Account deleted successfully 🗑️");
-    localStorage.removeItem("accessToken"); // Clear token after deletion
+    localStorage.removeItem("refreshToken"); // Clear token after deletion
     return response.data;
   } catch (error) {
     console.error("🚨 Error deleting account:", error.response?.data || error.message);
@@ -314,7 +314,7 @@ export const verifyPayment = async (response) => {
 
 export const placeOrderAPI = async (totalPrice) => {
   try {
-    const token = localStorage.getItem("accessToken"); // Get token from storage
+    const token = localStorage.getItem("refreshToken"); // Get token from storage
     if (!token) {
       throw new Error("Unauthorized: No access token");
     }
