@@ -34,7 +34,7 @@ const Login = () => {
     <div className="h-screen bg-gradient-to-r from-[#fda06b] to-[#f8f8f8] flex items-center justify-center">
       <div className="bg-white w-96 p-8 rounded-lg shadow-lg space-y-6">
         <div className="text-center mb-4">
-          <img src="/public/Logo2.svg" alt="Logo" className="mx-auto w-24 mb-2" />
+          <img src="/Logo2.svg" alt="Logo" className="mx-auto w-24 mb-2" />
           <h2 className="text-3xl font-semibold text-[#424242]">Welcome Back!</h2>
           <p className="text-gray-500 mt-2">Please sign in to your account</p>
         </div>
