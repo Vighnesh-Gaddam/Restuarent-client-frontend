@@ -24,7 +24,7 @@ const Orders = () => {
   }, []);
 
   return (
-    <div className="ml-72 p-6 h-screen overflow-y-auto scrollbar-hide">
+    <div className="ml-72 p-6 h-screen scrollbar-hide">
       <h2 className="text-2xl font-semibold mb-4">Your Orders</h2>
 
       {loading ? (

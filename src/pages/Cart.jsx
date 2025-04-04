@@ -6,8 +6,10 @@ import { toast } from "react-toastify";
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [cartLoading, setCartLoading] = useState(true); // Loader for fetching cart
 
   const loadCart = async () => {
+    setCartLoading(true); // Start loading
     const token = localStorage.getItem("refreshToken");
     if (!token) {
       console.error("User not logged in");
@@ -28,6 +30,8 @@ const Cart = () => {
       console.error("Error fetching cart:", error);
       toast.error("Failed to load cart.");
       setCartItems([]);
+    } finally {
+      setCartLoading(false); // Stop loading
     }
   };
 
@@ -94,14 +98,10 @@ const Cart = () => {
             console.log("📌 Payment Verification Response:", paymentVerificationResponse);
 
             if (paymentVerificationResponse?.data?.message) {
-
               toast.success("✅ Payment successful! Order placed.");
-
-              // 🟢 Clear cart from DB and refresh UI
               await loadCart(); // Re-fetch cart after payment
             } else {
               loadCart();
-
               toast.error("❌ Payment verification failed.");
             }
           } catch (error) {
@@ -126,19 +126,20 @@ const Cart = () => {
     setLoading(false);
   };
 
-
-
-
-
-
-
   return (
     <div className="flex gap-6 p-6 min-h-screen ml-72">
       {/* Left Side - Cart Items */}
       <div className="flex-1 space-y-4">
         <h1 className="text-3xl font-bold mb-4">Your Cart</h1>
 
-        {cartItems.length > 0 ? (
+        {cartLoading ? (
+          <div className="flex justify-center items-center h-96">
+            <div className="relative">
+              <div className="w-16 h-16 border-4 border-[#ffa16c] border-t-transparent rounded-full animate-spin"></div>
+              <p className="text-[#ffa16c] font-semibold mt-3 text-center">Loading Cart...</p>
+            </div>
+          </div>
+        ) : cartItems.length > 0 ? (
           cartItems.map((item) => (
             <CartCard
               key={item._id}
@@ -200,9 +201,16 @@ const Cart = () => {
             <button
               onClick={handlePlaceOrder}
               disabled={loading}
-              className="mt-6 w-full bg-[#ffa16c] text-white py-3 rounded-lg font-bold hover:bg-[#ff8f4a]"
+              className="mt-6 w-full bg-[#ffa16c] text-white py-3 rounded-lg font-bold hover:bg-[#ff8f4a] flex items-center justify-center"
             >
-              {loading ? "Processing..." : "Place Order"}
+              {loading ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Processing...
+                </div>
+              ) : (
+                "Place Order"
+              )}
             </button>
           </>
         )}

@@ -10,7 +10,8 @@ const Menu = () => {
   const [filteredItems, setFilteredItems] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const [cartItems, setCartItems] = useState([]);  // 🛒 Stores cart items
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
@@ -18,7 +19,7 @@ const Menu = () => {
   const refreshCart = async () => {
     try {
       const response = await fetchCartItems();
-      setCartItems(response.data.items); // 🔄 Update cart state globally
+      setCartItems(response.data.items);
     } catch (error) {
       console.error("Error refreshing cart:", error);
     }
@@ -34,31 +35,33 @@ const Menu = () => {
         }
       } catch (err) {
         console.error("Failed to load menu items.", err);
+      } finally {
+        setLoading(false);
       }
     };
 
     getMenuItems();
-    refreshCart();  // 🔄 Fetch cart when page loads
+    refreshCart();
   }, []);
 
-  // Handle Category Change
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
-    if (category === "All") {
-      setFilteredItems(menuItems);
-    } else {
-      setFilteredItems(menuItems.filter((item) => item.category === category));
-    }
+    setFilteredItems(category === "All" ? menuItems : menuItems.filter((item) => item.category === category));
   };
 
-  // Handle Search
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
-    const filtered = menuItems.filter((item) =>
-      item.name.toLowerCase().includes(e.target.value.toLowerCase())
-    );
-    setFilteredItems(filtered);
+    setFilteredItems(menuItems.filter((item) => item.name.toLowerCase().includes(e.target.value.toLowerCase())));
   };
+
+  if (loading) return (
+    <div className="flex justify-center items-center h-screen">
+      <div className="relative">
+        <div className="w-16 h-16 border-4 border-[#ffa16c] border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-[#ffa16c] font-semibold mt-3 text-center">Loading Menu...</p>
+      </div>
+    </div>
+  );
 
   return (
     <div className="ml-72 h-screen overflow-y-auto p-6 scrollbar-hide">
@@ -76,7 +79,7 @@ const Menu = () => {
         <div className="flex items-center space-x-4">
           <img
             src={user?.profilePic || "https://randomuser.me/api/portraits/men/45.jpg"}
-            alt="Profile"
+            alt="Profile"   
             className="w-12 h-12 rounded-full border border-gray-300"
           />
           <div>
