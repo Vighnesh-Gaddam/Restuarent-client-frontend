@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
 import OrderCard from "../components/OrderCard";
 import { fetchUserOrders } from "../services/api";
 
@@ -6,6 +7,7 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // ✅ Initialize navigate
 
   useEffect(() => {
     const getOrders = async () => {
@@ -38,7 +40,22 @@ const Orders = () => {
           ))}
         </div>
       ) : (
-        <p className="text-gray-500 text-center">No orders found.</p>
+        // 🎯 Updated Empty Orders UI with Image & Button
+        <div className="flex flex-col items-center justify-center text-center mt-16">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
+            alt="No Orders Found"
+            className="w-48 h-48"
+          />
+          <h2 className="text-2xl font-semibold mt-4">No orders found!</h2>
+          <p className="text-gray-500 mt-2">Looks like you haven't placed any orders yet.</p>
+          <button
+            onClick={() => navigate("/menu")} // ✅ Using navigate instead of window.location
+            className="mt-6 bg-[#ffa16c] text-white py-2 px-4 rounded-lg font-bold hover:bg-[#ff8f4a]"
+          >
+            Browse Menu
+          </button>
+        </div>
       )}
     </div>
   );

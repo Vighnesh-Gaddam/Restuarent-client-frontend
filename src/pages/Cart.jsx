@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchCartItems, placeOrderAPI, removeCartItemAPI, verifyPaymentAPI } from "../services/api";
 import CartCard from "../components/CartCard";
 import { toast } from "react-toastify";
+import { Navigate } from "react-router";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -158,7 +159,7 @@ const Cart = () => {
             <h2 className="text-2xl font-semibold mt-4">Your cart is empty!</h2>
             <p className="text-gray-500 mt-2">Looks like you haven't added anything yet.</p>
             <button
-              onClick={() => window.location.href = "/menu"}
+              onClick={() => Navigate("/menu")} 
               className="mt-6 bg-[#ffa16c] text-white py-2 px-4 rounded-lg font-bold hover:bg-[#ff8f4a]"
             >
               Browse Menu
