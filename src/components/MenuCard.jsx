@@ -65,7 +65,7 @@ const MenuCard = ({ foodItem, cartItems, refreshCart }) => {
 
     return (
         <div 
-            className="menu-card flex bg-white rounded-3xl shadow-lg w-[400px] h-[200px] mx-auto items-center my-2"
+            className="menu-card flex bg-white rounded-3xl shadow-lg w-full h-[200px] mx-auto items-center my-2"
         >
             <div className="flex flex-col items-center w-1/3">
                 <div className="w-24 h-36 bg-gray-200 rounded-2xl overflow-hidden flex items-center justify-center">
